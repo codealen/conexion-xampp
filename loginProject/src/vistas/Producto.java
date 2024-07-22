@@ -125,6 +125,11 @@ public class Producto extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblTabla);
 
         btnEditar.setText("EDITAR");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnBaja.setText("BAJA");
         btnBaja.addActionListener(new java.awt.event.ActionListener() {
@@ -250,6 +255,13 @@ public class Producto extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tblTablaMouseClicked
 
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        // TODO add your handling code here:
+        editar();
+        listar();
+        nuevo();
+    }//GEN-LAST:event_btnEditarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -374,6 +386,26 @@ void eliminar(){
             st=cn.createStatement();
             st.executeUpdate(sql);
             JOptionPane.showMessageDialog(null, "ELIMINADO CON EXITO");
+            Limpiartabla();
+        }catch(Exception e){
+        
+        }
+    }
+}
+void editar(){
+    String codigo = tfCodigo.getText();
+    String nombre = tfNombre.getText();
+    String cantidad = tfPrecio.getText();
+    String precio = tfCodigo.getText();
+    String sql = "update producto set nombre='"+nombre+"',cantidad='"+cantidad+"',precio='"+precio+"' where codigo="+codigo;
+    if(codigo.equals("")||nombre.equals("")){
+        JOptionPane.showMessageDialog(null, "FALTA INGRESAR DATOS");
+    }else{
+        try{
+            cn=con.getConnection();
+            st=cn.createStatement();
+            st.executeLargeUpdate(sql);
+            JOptionPane.showMessageDialog(null,"PEDIDO ACTUALIZADA");
             Limpiartabla();
         }catch(Exception e){
         
