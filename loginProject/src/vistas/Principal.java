@@ -6,12 +6,17 @@ package vistas;
 
 import config.Conexion;
 import config.Fecha;
+import config.Listado_Productos;
 import java.sql.*;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import config.Productos;
+
 
 /**
  *
@@ -33,6 +38,7 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         listar();
+        cargarCombo(cbSabor);
     }
 
     /**
@@ -518,6 +524,28 @@ try {
             cbTamano.setSelectedItem("");
             cbMesa.requestFocus();
             //jdcfecha.setDateFormatString("");
+            
+    }
+
+    private void cargarCombo(JComboBox c) {
+        DefaultComboBoxModel combo=new DefaultComboBoxModel();
+        c.setModel(combo);
+        Listado_Productos lp = new Listado_Productos();
+        c.setModel(combo);
+        try{
+        Statement st=cn.createStatement();
+            ResultSet rs=st.executeQuery("SELECT nombre FROM producto");
+            while(rs.next()){
+            Productos pro = new Productos();
+            pro.setNombre(rs.getString(1));
+            lp.AgregarProductos(pro);
+            combo.addElement(pro.getNombre());
+            System.out.println("todo OK");
+            
+            }
+        }catch(Exception e){
+            System.out.println("no se puede mostrar combo");
+        }
             
     }
 }
